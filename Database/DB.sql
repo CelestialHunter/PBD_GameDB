@@ -45,6 +45,7 @@ CREATE TABLE `jocuri` (
   CONSTRAINT `Jucator_2` FOREIGN KEY (`Jucator_2`) REFERENCES `jucatori` (`ID_Jucator`),
   CONSTRAINT `jocuri_chk_1` CHECK ((`Numar_partide` < 100)),
   CONSTRAINT `jocuri_chk_2` CHECK ((`Numar_partide_jucate` < 100)),
+  CONSTRAINT `jocuri_chk_3` CHECK ((`Data_inceput_joc` < `Data_sfarsit_joc`)),
   CONSTRAINT `Numar_partide` CHECK (((`Numar_partide` % 2) <> 0))
 ) ENGINE=InnoDB AUTO_INCREMENT=1000000001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -55,7 +56,7 @@ CREATE TABLE `jocuri` (
 
 LOCK TABLES `jocuri` WRITE;
 /*!40000 ALTER TABLE `jocuri` DISABLE KEYS */;
-INSERT INTO `jocuri` VALUES (1,'Sah',1,2,3,2,'2022-10-06 00:00:00','2022-10-06 00:00:00',1,2,2),(2,'Table',3,4,5,5,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,2,3),(3,'Sah',3,4,7,7,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,4,4),(4,'Sah',2,3,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',1,2,3),(5,'Sah',4,1,5,5,'2022-10-07 00:00:00','2022-10-08 00:00:00',5,0,4),(6,'Sah',2,4,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,1,2),(7,'Sah',1,2,5,4,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,2,NULL);
+INSERT INTO `jocuri` VALUES (1,'Sah',1,2,3,2,'2022-10-06 00:00:00','2022-10-07 00:00:00',1,2,2),(2,'Table',3,4,5,5,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,2,3),(3,'Sah',3,4,7,7,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,4,4),(4,'Sah',2,3,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',1,2,3),(5,'Sah',4,1,5,5,'2022-10-07 00:00:00','2022-10-08 00:00:00',5,0,4),(6,'Sah',2,4,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,1,2),(7,'Sah',1,2,5,4,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,2,NULL),(8,'Table',2,3,3,3,'2009-12-05 00:00:00','2009-12-07 00:00:00',2,1,2),(9,'Table',4,3,7,7,'2009-12-28 00:00:00','2010-01-02 00:00:00',2,5,3),(10,'Table',2,3,3,3,'2010-01-01 00:00:00','2010-01-02 00:00:00',2,1,2),(11,'Sah',4,1,5,5,'2010-02-02 00:00:00','2010-04-01 00:00:00',4,1,4);
 /*!40000 ALTER TABLE `jocuri` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,6 +171,63 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getJocuri2010` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getJocuri2010`(
+	OUT errCode INT,
+    OUT statusMsg VARCHAR(70)
+)
+BEGIN
+	DECLARE nrJucatori INT;
+    DECLARE nrJocuri INT;
+    
+	# Cream subprocedura MAIN pentru a ne permite
+	# oprirea imediata a executiei in caz de eroare.
+	MAIN: BEGIN
+		SET nrJucatori = (SELECT COUNT(*) FROM Jucatori);
+        
+        IF nrJucatori = 0 THEN
+			SET errCode = 1;
+			SET statusMsg = "Eroare: Nu exista jucatori inscrisi!";
+			LEAVE MAIN;
+		END IF;
+    
+		SET nrJocuri = (SELECT COUNT(*) FROM Jocuri 
+						WHERE Data_inceput_joc >= '2010-01-01' AND Data_sfarsit_joc <= '2010-04-01');
+    
+		IF nrJocuri = 0 THEN
+			SET errCode = 2;
+			SET statusMsg = "Eroare: Nu exista jocuri desfasurate in perioada 01.ian.2010 - 01.apr.2010!";
+			LEAVE MAIN;
+		END IF;
+    
+		SELECT ID_Joc, 
+			   Tip_Joc, 
+               Numar_partide, 
+               Data_inceput_joc, 
+               Data_sfarsit_joc, 
+               TIMESTAMPDIFF(hour, Data_inceput_joc, Data_sfarsit_joc) AS Durata_joc, 
+               Nume as Invingator
+		FROM Jocuri
+		INNER JOIN Jucatori ON Jocuri.Invingator = Jucatori.ID_Jucator 
+		WHERE Data_inceput_joc >= '2010-01-01' AND Data_sfarsit_joc <= '2010-04-01'
+		ORDER BY Tip_Joc ASC, Data_inceput_joc ASC;
+        
+    END;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `getSahMaster` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -250,4 +308,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-09 15:08:44
+-- Dump completed on 2022-10-09 16:47:17
