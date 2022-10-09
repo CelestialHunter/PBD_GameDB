@@ -3,7 +3,7 @@ This is a **university project** on **Database Design** that manages game matche
 
 # Main project diagram
 <p align="center">
-  <img src="https://i.imgur.com/3D6TAxH.png" />
+  <img src="https://i.imgur.com/IUD2y8h.png" />
 </p>
 
 # Use Case Diagram
