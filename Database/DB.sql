@@ -55,7 +55,7 @@ CREATE TABLE `jocuri` (
 
 LOCK TABLES `jocuri` WRITE;
 /*!40000 ALTER TABLE `jocuri` DISABLE KEYS */;
-INSERT INTO `jocuri` VALUES (1,'Sah',2,1,3,0,'2022-10-06 00:00:00',NULL,0,0,NULL);
+INSERT INTO `jocuri` VALUES (1,'Sah',1,2,3,2,'2022-10-06 00:00:00','2022-10-06 00:00:00',1,2,2),(2,'Table',3,4,5,5,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,2,3),(3,'Sah',3,4,7,7,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,4,4),(4,'Sah',2,3,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',1,2,3),(5,'Sah',4,1,5,5,'2022-10-07 00:00:00','2022-10-08 00:00:00',5,0,4),(6,'Sah',2,4,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,1,2),(7,'Sah',1,2,5,4,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,2,NULL);
 /*!40000 ALTER TABLE `jocuri` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,7 +75,7 @@ CREATE TABLE `jucatori` (
   PRIMARY KEY (`ID_Jucator`),
   CONSTRAINT `Data_inscriere` CHECK ((`Data_inscriere` < `Data_curenta`)),
   CONSTRAINT `Data_nastere` CHECK ((`Data_nastere` < `Data_curenta`))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,7 +84,7 @@ CREATE TABLE `jucatori` (
 
 LOCK TABLES `jucatori` WRITE;
 /*!40000 ALTER TABLE `jucatori` DISABLE KEYS */;
-INSERT INTO `jucatori` VALUES (1,'Eduard','2001-07-13 00:00:00','2022-10-05 00:00:00','2022-10-06 21:45:16'),(2,'Andrei','2001-07-13 00:00:00','2022-09-05 00:00:00','2022-10-06 21:47:23');
+INSERT INTO `jucatori` VALUES (1,'Eduard Miclos','2001-07-13 00:00:00','2022-10-05 00:00:00','2022-10-06 21:45:16'),(2,'Andrei Balea','2001-05-30 00:00:00','2022-09-05 00:00:00','2022-10-06 21:47:23'),(3,'Matei Horia','2000-04-04 00:00:00','2022-09-06 00:00:00','2022-10-09 13:52:17'),(4,'Ionut Iftimie','2003-08-25 00:00:00','2022-10-04 00:00:00','2022-10-09 13:52:49');
 /*!40000 ALTER TABLE `jucatori` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,6 +118,8 @@ BEGIN
     DECLARE idJucator2 INT;
     DECLARE nrJocuri INT;
     
+    # Cream subprocedura MAIN pentru a ne permite
+	# oprirea imediata a executiei in caz de eroare.
     MAIN: BEGIN
 		SET nrJocuri = (SELECT MAX(ID_Joc) FROM jocuri);
         
@@ -127,6 +129,8 @@ BEGIN
 			LEAVE MAIN;
 		END IF;
     
+		# Preluam id-ul jucatorului 1 cu numele primit ca si parametru
+		# (daca acesta exista).
 		SET idJucator1 = (SELECT ID_Jucator from jucatori WHERE Nume = numeJucator1);
     
 		IF idJucator1 IS NULL THEN
@@ -135,6 +139,8 @@ BEGIN
             LEAVE MAIN;
 		END IF;
     
+		# Preluam id-ul jucatorului 2 cu numele primit ca si parametru
+		# (daca acesta exista).
 		SET idJucator2 = (SELECT ID_Jucator from jucatori WHERE Nume = numeJucator2);
     
 		IF idJucator2 IS NULL THEN
@@ -143,12 +149,14 @@ BEGIN
             LEAVE MAIN;
 		END IF;
         
+        # Numarul de partide trebuie sa fie impar.
         IF nrPartide % 2 = 0 THEN
 			SET errCode = 4;
 			SET statusMsg = "Eroare: Numarul de partide trebuie sa fie impar!";
             LEAVE MAIN;
 		END IF;
         
+        # Query-ul propriu-zis de insertie a jocului.
         INSERT INTO jocuri (Tip_Joc, Jucator_1, Jucator_2, Numar_partide, Data_inceput_joc)
         VALUES (tipJoc, idJucator1, idJucator2, nrPartide, CURRENT_DATE());
         
@@ -156,6 +164,76 @@ BEGIN
 		SET statusMsg = "Succes!";
             
 	END;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getSahMaster` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSahMaster`(
+	OUT errCode INT,
+    OUT statusMsg VARCHAR(70)
+)
+BEGIN
+	DECLARE nrJucatori INT;
+    DECLARE nrJocuriSah INT;
+    DECLARE nrInvingatoriSah INT;
+	
+    # Cream subprocedura MAIN pentru a ne permite
+	# oprirea imediata a executiei in caz de eroare.
+	MAIN: BEGIN
+		SET nrJucatori = (SELECT COUNT(*) FROM Jucatori);
+        
+        IF nrJucatori = 0 THEN
+			SET errCode = 1;
+			SET statusMsg = "Eroare: Nu exista jucatori inscrisi!";
+			LEAVE MAIN;
+		END IF;
+        
+        SET nrJocuriSah = (SELECT COUNT(*) FROM Jocuri WHERE Tip_Joc = "Sah");
+        
+        IF nrJocuriSah = 0 THEN
+			SET errCode = 2;
+			SET statusMsg = "Eroare: Nu exista jocuri de sah in tabela!";
+			LEAVE MAIN;
+		END IF;
+        
+        SET nrInvingatoriSah = (SELECT COUNT(*) FROM Jocuri WHERE Tip_Joc = "Sah" AND Invingator IS NOT NULL);
+        
+		IF nrInvingatoriSah = 0 THEN
+			SET errCode = 3;
+			SET statusMsg = "Eroare: Jocurile de sah sunt inca in desfasurare!";
+			LEAVE MAIN;
+		END IF;
+        
+		# Cream tabela de victorii, o componenta intermediara ce va fi preluata si prelucrata
+        # in programul ce efectueaza apelul procedurii. Este necesara, deoarece pot exista
+        # mai multi jucatori cu acelasi numar de victorii => mai mult maestri sah.
+		WITH Tabela_victorii AS 
+			(
+			SELECT jucatori.Nume, COUNT(*) AS Victorii FROM Jocuri 
+			INNER JOIN jucatori ON jocuri.Invingator = jucatori.ID_Jucator
+			WHERE jocuri.Tip_Joc = "Sah"
+			GROUP BY jocuri.Invingator
+			ORDER BY Victorii 
+			)
+		SELECT Nume FROM Tabela_victorii
+		WHERE Victorii = (SELECT MAX(Victorii) from Tabela_victorii);
+        
+        SET errCode = 0;
+		SET statusMsg = "Succes!";
+            
+    END;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -172,4 +250,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-09 13:38:32
+-- Dump completed on 2022-10-09 15:08:44
