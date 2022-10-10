@@ -24,5 +24,15 @@ namespace MatchMaker
         {
             InitializeComponent();
         }
+
+        private void exitBT_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void enterBT_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
