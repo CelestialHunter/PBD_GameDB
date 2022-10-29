@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `pbd_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `pbd_db`;
--- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: pbd_db
 -- ------------------------------------------------------
--- Server version	8.0.28
+-- Server version	8.0.23
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -59,6 +59,39 @@ LOCK TABLES `jocuri` WRITE;
 INSERT INTO `jocuri` VALUES (1,'Sah',1,2,3,2,'2022-10-06 00:00:00','2022-10-07 00:00:00',1,2,2),(2,'Table',3,4,5,5,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,2,3),(3,'Sah',3,4,7,7,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,4,4),(4,'Sah',2,3,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',1,2,3),(5,'Sah',4,1,5,5,'2022-10-07 00:00:00','2022-10-08 00:00:00',5,0,4),(6,'Sah',2,4,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,1,2),(7,'Sah',1,2,5,4,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,2,NULL),(8,'Table',2,3,3,3,'2009-12-05 00:00:00','2009-12-07 00:00:00',2,1,2),(9,'Table',4,3,7,7,'2009-12-28 00:00:00','2010-01-02 00:00:00',2,5,3),(10,'Table',2,3,3,3,'2010-01-01 00:00:00','2010-01-02 00:00:00',2,1,2),(11,'Sah',4,1,5,5,'2010-02-02 00:00:00','2010-04-01 00:00:00',4,1,4),(12,'Table',4,1,3,3,'2011-03-03 00:00:00','2011-03-04 00:00:00',1,2,1);
 /*!40000 ALTER TABLE `jocuri` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `jocuri_AFTER_UPDATE` BEFORE UPDATE ON `jocuri` FOR EACH ROW BEGIN
+	IF NEW.Numar_partide = NEW.Numar_partide_jucate THEN
+		CASE WHEN (NEW.Scor_jucator_1 > NEW.Scor_jucator_2) THEN
+			BEGIN
+				SET NEW.Invingator = Jucator_1;
+			END;
+		WHEN (NEW.Scor_jucator_2 < NEW.Scor_jucator_2) THEN
+			BEGIN
+				SET NEW.Invingator = Jucator_2;
+			END;
+		ELSE 
+			BEGIN
+				SET NEW.Invingator = 0;
+			END;
+		END CASE;
+        
+	SET NEW.Data_sfarsit_joc = current_date();
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `jucatori`
@@ -90,12 +123,30 @@ INSERT INTO `jucatori` VALUES (1,'Eduard Miclos','2001-07-13 00:00:00','2022-10-
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'pbd_db'
---
-
---
 -- Dumping routines for database 'pbd_db'
 --
+/*!50003 DROP FUNCTION IF EXISTS `getVarsta` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `getVarsta`(ID_Jucator INT) RETURNS int
+    READS SQL DATA
+BEGIN
+	DECLARE Varsta INT;
+	SELECT TIMESTAMPDIFF(YEAR, (SELECT Data_nastere from jucatori WHERE jucatori.ID_Jucator=ID_Jucator), CURDATE()) LIMIT 1 INTO Varsta;
+	return Varsta;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `creeazaJoc` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -293,6 +344,52 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getMaiestruCategVarsta` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMaiestruCategVarsta`(
+	IN minVarst INT,
+    IN maxVarst INT,
+    OUT errCode INT,
+    OUT statusMsg VARCHAR(70)
+)
+BEGIN
+
+	# Cream subprocedura MAIN pentru a ne permite
+	# oprirea imediata a executiei in caz de eroare.
+	MAIN: BEGIN    
+		IF (minVarst > maxVarst) THEN
+			SET errCode = 1;
+			SET statusMsg = "Intervalul introdus este gresit.";
+			LEAVE MAIN;
+		END IF;
+		
+		WITH t1 AS 
+			(
+				SELECT
+						*,
+						(SELECT COUNT(*) FROM `pbd_db`.`jocuri` WHERE jocuri.Invingator = ID_Jucator) as Victorii
+				FROM `pbd_db`.`jucatori`
+				WHERE getVarsta(ID_Jucator) >= minVarst AND getVarsta(ID_Jucator) <= maxVarst
+			)    
+		SELECT * from t1 WHERE Victorii = (SELECT MAX(Victorii) from  t1);
+        
+        SET errCode = 0;
+		SET statusMsg = "Succes!";
+    END;   
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `getSahMaster` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -344,19 +441,47 @@ BEGIN
         # mai multi jucatori cu acelasi numar de victorii => mai mult maestri sah.
 		WITH Tabela_victorii AS 
 			(
-			SELECT jucatori.Nume, COUNT(*) AS Victorii FROM Jocuri 
+			SELECT *, COUNT(*) AS Victorii FROM Jocuri 
 			INNER JOIN jucatori ON jocuri.Invingator = jucatori.ID_Jucator
 			WHERE jocuri.Tip_Joc = "Sah"
 			GROUP BY jocuri.Invingator
 			ORDER BY Victorii 
 			)
-		SELECT Nume FROM Tabela_victorii
+		SELECT ID_Jucator, Nume, Data_nastere, Data_inscriere, Victorii FROM Tabela_victorii
 		WHERE Victorii = (SELECT MAX(Victorii) from Tabela_victorii);
         
         SET errCode = 0;
 		SET statusMsg = "Succes!";
             
     END;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `raportJucatori` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `raportJucatori`()
+BEGIN
+	SELECT
+		Nume,
+        ID_Joc,
+        Tip_joc,
+        Data_inceput_joc,
+        Data_sfarsit_joc,
+        if (ID_Jucator = Invingator, "DA", "NU") as Castigator
+	FROM jocuri 
+    INNER JOIN jucatori
+    ON jocuri.Jucator_1 = jucatori.ID_Jucator OR jocuri.Jucator_2 = jucatori.ID_Jucator;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -373,4 +498,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-09 17:23:33
+-- Dump completed on 2022-10-30  2:12:43
