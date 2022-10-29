@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MatchMaker.DataBase;
+using MatchMaker.DataBase.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +34,17 @@ namespace MatchMaker
 
         private void enterBT_Click(object sender, RoutedEventArgs e)
         {
+            
+        }
 
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://upt.ro/") { UseShellExecute=true}) ;
+        }
+
+        private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/CelestialHunter/PBD_GameDB") { UseShellExecute = true });
         }
     }
 }
