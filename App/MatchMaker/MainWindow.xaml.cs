@@ -34,7 +34,16 @@ namespace MatchMaker
 
         private void enterBT_Click(object sender, RoutedEventArgs e)
         {
-            
+            menuGrid.Visibility = Visibility.Hidden;
+            mainPage.Visibility = Visibility.Visible;
+            backBT.Visibility = Visibility.Visible;
+        }
+
+        private void backBT_Click(object sender, RoutedEventArgs e)
+        {
+            menuGrid.Visibility = Visibility.Visible;
+            mainPage.Visibility = Visibility.Hidden;
+            backBT.Visibility = Visibility.Hidden;
         }
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
