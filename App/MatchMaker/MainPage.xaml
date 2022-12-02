@@ -9,7 +9,7 @@
       Title="MainPage">
 
     <Grid Background="#BEBEBE">
-        <TabControl SelectionChanged="TabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" SelectionChanged="TabControl_SelectionChanged">
             <TabItem x:Name="partideTab">
                 <TabItem.Header>
                     <Viewbox MaxHeight="90">
@@ -133,13 +133,26 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Viewbox Style="{StaticResource columnContent_viewbox}">
-                                                <TextBlock Grid.Column="6" Text="{Binding Data_sfarsit_joc, StringFormat=d}"  
-                                                           Margin="10"/>
+                                                <TextBlock Grid.Column="6" Text="{Binding Data_sfarsit_joc, StringFormat=d}"/>
                                             </Viewbox>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}">
+                                            <TextBlock Text="Învingător"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock Grid.Column="6" Text="{Binding Invingator, Converter={StaticResource IdToNameConv}}"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>                       
                     </ListView>
@@ -245,7 +258,72 @@
                         <TextBlock Text="Statistici"/>
                     </Viewbox>
                 </TabItem.Header>
-                <Grid Background="#BBBBBB"/>
+                <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width=".5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button x:Name="tensMatchesBT" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Width="875" Padding="0" Margin="10"
+                                VerticalAlignment="Center" HorizontalAlignment="Center" Click="tensMatchesBT_Click" BorderBrush="#FFBBBBBB">
+                        <Viewbox Margin="10, 0">
+                            <Label Content="Afișare meciuri jucate între 01.01.2010 și 01.04.2010" FontSize="40"/>
+                        </Viewbox>
+                    </Button>
+                    
+                    <Button x:Name="playerStatsBT" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Width="875" Padding="0" Margin="10"
+                                VerticalAlignment="Center" HorizontalAlignment="Center" Click="playerStatsBT_Click" BorderBrush="#FFBBBBBB">
+                        <Viewbox Margin="10, 0">
+                            <Label Content="Afișare statistică jucători" FontSize="40"/>
+                        </Viewbox>
+                    </Button>
+
+                    <Viewbox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" MaxHeight="40">
+                        <TextBlock Text="Cel mai bun jucător de șah:" />
+                    </Viewbox>
+                    <TextBox x:Name="bestChessPlayerTB" Grid.Column="2" Grid.Row="4" IsReadOnly="True"
+                             Margin="10, 10" Style="{StaticResource ResourceKey=textBoxFontStyle}"/>
+
+                    <Viewbox Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right" MaxHeight="40">
+                        <TextBlock Text="Jucătorul cu cele mai multe jocuri jucate:"/>
+                    </Viewbox>
+                    <TextBox x:Name="mostGamesPlayerTB" Grid.Column="2" Grid.Row="5" IsReadOnly="True"
+                             Margin="10, 10" Style="{StaticResource ResourceKey=textBoxFontStyle}"/>
+
+                    <Viewbox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" HorizontalAlignment="Left" MaxHeight="50">
+                        <TextBlock Text="Cel mai bun jucător pe categorii de vârstă:"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Column="1" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxHeight="30">
+                        <TextBlock Text="Categorie:" HorizontalAlignment="Center"/>
+                    </Viewbox>
+                    <ComboBox x:Name="ageCategoryCB" Grid.Column="1" Grid.Row="9" SelectionChanged="ageCategoryCB_SelectionChanged"
+                              Margin="100, 10">
+                    </ComboBox>
+
+                    <Viewbox Grid.Column="2" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxHeight="30">
+                        <TextBlock Text="Nume Jucător:" HorizontalAlignment="Center"/>
+                    </Viewbox>
+                    <TextBox x:Name="bestPlayerTB" Grid.Column="2" Grid.Row="9" IsReadOnly="True"
+                             Margin="10, 10" Style="{StaticResource ResourceKey=textBoxFontStyle}"/>
+
+
+                </Grid>
             </TabItem>
         </TabControl>
 

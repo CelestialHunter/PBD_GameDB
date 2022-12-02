@@ -44,6 +44,8 @@ namespace MatchMaker
             menuGrid.Visibility = Visibility.Hidden;
             mainPage.Visibility = Visibility.Visible;
             backBT.Visibility = Visibility.Visible;
+
+            ((MainPage)mainPage.Content).enterPage();
         }
 
         private void backBT_Click(object sender, RoutedEventArgs e)

@@ -14,6 +14,8 @@ namespace MatchMaker.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if ((int)value == 0 || value == null || value is string && String.IsNullOrWhiteSpace((string)value))
+                return "None";
             Jucator j = DbConn.Instance.getJucatori().Where<Jucator>(j => j.ID_Jucator == (int)value).ElementAt<Jucator>(0);
             return j.Nume;
         }

@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Converters\GamePage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Resources\title.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

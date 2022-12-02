@@ -243,9 +243,9 @@ namespace MatchMaker.DataBase
             return jocuriList;
         }
 
-        public Jucator? getJucatorMaxJocuri()
+        public String? getJucatorMaxJocuri()
         {
-            Jucator? jucator = null;
+            String? jucator = null;
             int errCode;
             string statusMsg;
 
@@ -264,11 +264,7 @@ namespace MatchMaker.DataBase
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    int ID_Jucator = Convert.IsDBNull(reader["ID_Jucator"]) ? 0 : (int)reader["ID_Jucator"];
-                    string Nume = Convert.IsDBNull(reader["Nume"]) ? "" : (string)reader["Nume"];
-                    DateTime? Data_nastere = Convert.IsDBNull(reader["Data_nastere"]) ? null : (DateTime)reader["Data_nastere"];
-                    DateTime? Data_inscriere = Convert.IsDBNull(reader["Data_inscriere"]) ? null : (DateTime)reader["Data_inscriere"];
-                    jucator = new Jucator(ID_Jucator, Nume, Data_nastere, Data_inscriere);
+                    jucator = Convert.IsDBNull(reader["Nume"]) ? "" : (string)reader["Nume"];
                 }
 
                 reader.Close();
@@ -280,7 +276,7 @@ namespace MatchMaker.DataBase
                 {
                     MessageBox.Show(statusMsg);
                     conn.Close();
-                    return null;
+                    return "";
                 }
 
                 conn.Close();

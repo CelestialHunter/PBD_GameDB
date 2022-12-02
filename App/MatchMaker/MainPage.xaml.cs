@@ -24,15 +24,17 @@ namespace MatchMaker
     /// Interaction logic for MainPage.xaml
     /// </summary>
     public partial class MainPage : Page
-    {
-
-        int MaxStripHeight = 30;
-        
+    {        
         public MainPage()
         {
             InitializeComponent();
 
             this.Language = XmlLanguage.GetLanguage("ro-RO");
+        }
+
+        public void enterPage()
+        {
+            tabControl.SelectedIndex = 0;
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -54,7 +56,7 @@ namespace MatchMaker
                 }
                 else if (tabItem == statTab)
                 {
-                        
+                    initStats();
                 }
             }
         }
@@ -82,6 +84,39 @@ namespace MatchMaker
         #endregion
 
         #region Stat Tab
+
+        public void initStats()
+        {
+            List<Jucator> bestChessPlayers = DbConn.Instance.getSahMaster();
+            if(bestChessPlayers.Count == 0)
+            {
+                bestChessPlayerTB.Text = "Nu există maiestru la șah...";
+                bestChessPlayerTB.FontStyle = FontStyles.Italic;
+                bestChessPlayerTB.Foreground = new SolidColorBrush(Colors.DimGray);
+            }
+            else
+            {
+                bestChessPlayerTB.Text = bestChessPlayers[0].Nume;
+                bestChessPlayerTB.FontStyle = FontStyles.Normal;
+                bestChessPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
+            String? maxGamesPlayer = DbConn.Instance.getJucatorMaxJocuri();
+            if(String.IsNullOrWhiteSpace(maxGamesPlayer))
+            {
+                mostGamesPlayerTB.Text = "Nu există jucători cu partide jucate în DB...";
+                mostGamesPlayerTB.FontStyle = FontStyles.Italic;
+                mostGamesPlayerTB.Foreground = new SolidColorBrush(Colors.DimGray);
+            }
+            else
+            {
+                mostGamesPlayerTB.Text = maxGamesPlayer;
+                mostGamesPlayerTB.FontStyle = FontStyles.Normal;
+                mostGamesPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
+
+            }
+             
+        }
 
         #endregion
 
@@ -194,6 +229,21 @@ namespace MatchMaker
             {
                 e.Handled = true;
             }
+        }
+
+        private void tensMatchesBT_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void playerStatsBT_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ageCategoryCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
