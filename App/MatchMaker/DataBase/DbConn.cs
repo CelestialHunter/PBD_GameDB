@@ -118,6 +118,27 @@ namespace MatchMaker.DataBase
             return listaJucatori;
         }
 
+        public async void adaugaJucator(String numeJucator, DateTime dataNastere)
+        {
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO jucatori (Nume, Data_nastere, Data_inscriere) VALUES (@Nume, @Data_nastere, @Data_inscriere)", conn);
+                cmd.Parameters.AddWithValue("@Nume", numeJucator);
+                cmd.Parameters.AddWithValue("@Data_nastere", dataNastere);
+                cmd.Parameters.AddWithValue("@Data_inscriere", DateTime.Now);
+                //cmd.ExecuteNonQuery();
+                await Task.Delay(1000); // ca sa nu dea NOW din aplicatie > decat NOW din db
+                await cmd.ExecuteNonQueryAsync();
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                conn.Close();
+            }
+        }
+
         public bool creeazaJoc(String tipjoc, String numeJucator1, String numeJucator2, int nrPartide)
         {
             bool retVal;

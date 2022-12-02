@@ -15,7 +15,7 @@ namespace MatchMaker.Converters
         {
             TabControl tabControl = (TabControl)values[0];
 
-            double heigth = tabControl.ActualHeight / 8;
+            double heigth = tabControl.ActualHeight / 6;
 
             return heigth;
         }
@@ -23,6 +23,6 @@ namespace MatchMaker.Converters
         public object[] ConvertBack(object values, Type[] targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }
+        }        
     }
 }

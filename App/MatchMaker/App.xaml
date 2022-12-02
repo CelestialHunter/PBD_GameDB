@@ -5,12 +5,14 @@
              xmlns:converters="clr-namespace:MatchMaker.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <converters:TabWidthConverter x:Key="TabWidthConverter"/>
-        <converters:TabHeigthConverter x:Key="TabHeigthConverter"/>
+        <converters:TabWidthConverter x:Key="TabWidthConv"/>
+        <converters:TabHeigthConverter x:Key="TabHeigthConv"/>
+        <converters:TextBoxFontConverter x:Key="TextBoxFontConv"/>
+        <converters:IdToNameConverter x:Key="IdToNameConv"/>
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="Width">
                 <Setter.Value>
-                    <MultiBinding Converter="{StaticResource TabWidthConverter}">
+                    <MultiBinding Converter="{StaticResource TabWidthConv}">
                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" Path="ActualWidth" />
                     </MultiBinding>
@@ -18,12 +20,73 @@
             </Setter>
             <Setter Property="Height">
                 <Setter.Value>
-                    <MultiBinding Converter="{StaticResource TabHeigthConverter}">
+                    <MultiBinding Converter="{StaticResource TabHeigthConv}">
                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" Path="ActualHeight" />
                     </MultiBinding>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Margin" Value="5, 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="TabBorder" BorderBrush="#BEBEBE" BorderThickness="5" Background="#CFCFCF">
+                            <Grid>
+                                <ContentPresenter ContentSource="Header"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="TabBorder"
+                                        Property="Background"
+                                        Value="#CACACA"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="TabBorder"
+                                        Property="Background"
+                                        Value="#EAEAEA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="resizedCalendarItem" TargetType="{x:Type Calendar}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Calendar}">
+                        <Viewbox Height="350" Width="350">
+                            <CalendarItem x:Name="PART_CalendarItem"
+                                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"/>
+                        </Viewbox>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="textBoxFontStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource ResourceKey=TextBoxFontConv}}"/>
+        </Style>
+        <Style x:Key="comboBoxFontStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="FontSize" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource ResourceKey=TextBoxFontConv}}"/>
+        </Style>
+        <Style x:Key="textBlockFontStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource ResourceKey=TextBoxFontConv}}"/>
+        </Style>
+        <Style x:Key="columnHeader_viewbox" TargetType="Viewbox">
+            <Setter Property="MaxHeight" Value="40"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="20,0"/>
+        </Style>
+        <Style x:Key="columnContent_viewbox" TargetType="Viewbox">
+            <Setter Property="MaxHeight" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Application.Resources>
 </Application>

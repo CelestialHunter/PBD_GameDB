@@ -8,65 +8,244 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MainPage">
 
-    <Grid>
+    <Grid Background="#BEBEBE">
         <TabControl SelectionChanged="TabControl_SelectionChanged">
             <TabItem x:Name="partideTab">
                 <TabItem.Header>
-                    <Viewbox MaxHeight="100">
+                    <Viewbox MaxHeight="90">
                         <TextBlock Text="Partide"/>
                     </Viewbox>
                 </TabItem.Header>
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#BBBBBB">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>                    
                     <ListView x:Name="partideListView" Grid.Row="1" Margin="10,10,10,10">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="1" Text="{Binding ID_joc}" Margin="10"/>
-                                    <TextBlock Grid.Column="2" Text="{Binding Tip_joc}"  Margin="10"/>
-                                    <TextBlock Grid.Column="3" Text="{Binding Jucator_1}"  Margin="10" />
-                                    <TextBlock Grid.Column="4" Text="{Binding Jucator_2}"  Margin="10"/>
-                                    <TextBlock Grid.Column="5"  Margin="10">
-                                        <Run Text="{Binding Numar_partide_jucate, Mode=OneWay}"/>
-                                        <Run Text=" / "/>
-                                        <Run Text="{Binding Numar_partide, Mode=OneWay}"/>
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="6" Text="{Binding Data_inceput_joc, StringFormat=d}"  Margin="10"/>
-                                    <TextBlock Grid.Column="7" Text="{Binding Data_sfarsit_joc, StringFormat=d}"  Margin="10"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="LightGray"/>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <EventSetter Event="UIElement.PreviewMouseLeftButtonUp" Handler="clickOnGame"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView ColumnHeaderToolTip="Partide">
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}">
+                                            <TextBlock Text="ID"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock Text="{Binding ID_joc}"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}" MinWidth="100">
+                                            <TextBlock Text="Joc"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock Text="{Binding Tip_joc}"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}">
+                                            <TextBlock Text="Jucător 1"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock Text="{Binding Jucator_1, Converter={StaticResource IdToNameConv}}"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}">
+                                            <TextBlock Text="Jucător 2"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock Text="{Binding Jucator_2, Converter={StaticResource IdToNameConv}}"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}">
+                                            <TextBlock Text="Partide"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock>
+                                                    <Run Text="{Binding Numar_partide_jucate, Mode=OneWay}"/>
+                                                    <Run Text=" / "/>
+                                                    <Run Text="{Binding Numar_partide, Mode=OneWay}"/>
+                                                </TextBlock>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}">
+                                            <TextBlock Text="Dată început joc"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock Grid.Column="6" Text="{Binding Data_inceput_joc, StringFormat=d}"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.Header>
+                                        <Viewbox Style="{StaticResource columnHeader_viewbox}">
+                                            <TextBlock Text="Dată sfârșit joc"/>
+                                        </Viewbox>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                                <TextBlock Grid.Column="6" Text="{Binding Data_sfarsit_joc, StringFormat=d}"  
+                                                           Margin="10"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                            </GridView>
+                        </ListView.View>                       
                     </ListView>
                 </Grid>
             </TabItem>
             <TabItem x:Name="addTab">
                 <TabItem.Header>
-                    <Viewbox MaxHeight="100">
+                    <Viewbox MaxHeight="90">
                         <TextBlock Text="Adăugare"/>
                     </Viewbox>
                 </TabItem.Header>
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#BBBBBB">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="addPlayerGrid" Margin="5" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="3*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.ColumnSpan="2" HorizontalAlignment="Left" MaxHeight="100">
+                            <TextBlock Text="Adăugare Jucător" FontWeight="DemiBold" Margin="10, 0"/>
+                        </Viewbox>
+                        <Viewbox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
+                            <TextBlock Text="Nume" Margin="5"/>
+                        </Viewbox>
+                        <TextBox x:Name="newPlayerNameTB" Grid.Column="2" Grid.Row="1" Margin="10, 20"  
+                                 Style="{StaticResource ResourceKey=textBoxFontStyle}" VerticalContentAlignment="Center"/>
+                        <Viewbox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                            <TextBlock Text="Data nașterii" Margin="5"/>
+                        </Viewbox>
+                        <DatePicker x:Name="newPlayerBDayDP" Grid.Column="2" Grid.Row="2" Margin="10, 20" FontSize="20" Text="Selectați data..."
+                                    VerticalContentAlignment="Center" CalendarStyle="{StaticResource ResourceKey=resizedCalendarItem}"/>
+
+                        <Button x:Name="addPlayerBT" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Width="320" Padding="0" Margin="10"
+                                VerticalAlignment="Center" HorizontalAlignment="Center" Click="addPlayerBT_Click" BorderBrush="#FFBBBBBB">
+                            <Viewbox Margin="10, 0">
+                                <Label Content="Adaugă" FontSize="40"/>
+                            </Viewbox>
+                        </Button>
+
+                    </Grid>
+                    <Grid x:Name="addGameGrid" Grid.Row="1" Margin="5" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="3*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.ColumnSpan="3" HorizontalAlignment="Left" MaxHeight="100">
+                            <TextBlock Text="Adăugare Meci" FontWeight="DemiBold" Margin="10, 0"/>
+                        </Viewbox>
+                        <Viewbox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center">
+                            <TextBlock Text="Jucător 1" Margin="15, 10, 5, 0"/>
+                        </Viewbox>
+                        <TextBox x:Name="player1TB" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Margin="20, 40, 10, 0"  
+                                 Style="{StaticResource ResourceKey=textBoxFontStyle}" VerticalContentAlignment="Center"/>
+                        <Viewbox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center">
+                            <TextBlock Text="Jucător 2" Margin="15, 10, 5, 0"/>
+                        </Viewbox>
+                        <TextBox x:Name="player2TB" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Margin="20, 40, 10, 0"   
+                                 Style="{StaticResource ResourceKey=textBoxFontStyle}" VerticalContentAlignment="Center"/>
+                        <Viewbox Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center">
+                            <TextBlock Text="Joc" Margin="5, 10, 5, 0"/>
+                        </Viewbox>
+                        <TextBox x:Name="gameTB" Grid.Column="4" Grid.Row="1" Margin="10, 40, 20, 0"  
+                                 Style="{StaticResource ResourceKey=textBoxFontStyle}" VerticalContentAlignment="Center"/>
+                        <Viewbox Grid.Column="3" Grid.Row="2" HorizontalAlignment="Center">
+                            <TextBlock Text="Număr Partide" Margin="5, 10, 5, 0"/>
+                        </Viewbox>
+                        <TextBox x:Name="matchNoTB" Grid.Column="4" Grid.Row="2" Margin="10, 40, 20, 0"   
+                                 Style="{StaticResource ResourceKey=textBoxFontStyle}" VerticalContentAlignment="Center"
+                                 PreviewTextInput="TextBlock_PreviewTextInput"/>
+                        <Button x:Name="addMatchTB" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Width="320" Padding="0" Margin="10, 10, 10, 10"
+                                VerticalAlignment="Center" HorizontalAlignment="Center" Click="addMatchTB_Click" BorderBrush="#FFBBBBBB">
+                            <Viewbox Margin="10, 0">
+                                <Label Content="Adaugă" FontSize="40"/>
+                            </Viewbox>
+                        </Button>
+                    </Grid>
+                </Grid>
+                
             </TabItem>
             <TabItem x:Name="statTab">
                 <TabItem.Header>
-                    <Viewbox MaxHeight="100">
+                    <Viewbox MaxHeight="90">
                         <TextBlock Text="Statistici"/>
                     </Viewbox>
                 </TabItem.Header>
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#BBBBBB"/>
             </TabItem>
         </TabControl>
 

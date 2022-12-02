@@ -25,6 +25,13 @@ namespace MatchMaker
         public MainWindow()
         {
             InitializeComponent();
+
+            if (!DbConn.Instance.testConnection())
+            {
+                MessageBox.Show("Connection to database failed!\nCheck your connection and try again.");
+                Application.Current.Shutdown();
+            }
+            
         }
 
         private void exitBT_Click(object sender, RoutedEventArgs e)
