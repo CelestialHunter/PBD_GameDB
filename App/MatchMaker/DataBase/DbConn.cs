@@ -180,6 +180,33 @@ namespace MatchMaker.DataBase
             return retVal;
         }
 
+        public bool addScore(int ID_joc, int ID_Jucator)
+        {
+            bool retval = true;
+
+            try
+            {
+                conn.Open();
+                String cmd = "UPDATE jocuri " +
+                             "SET " +
+                             "Numar_partide_jucate = Numar_partide_jucate + 1, " +
+                             "Scor_jucator_1 = IF(" + ID_Jucator + " = Jucator_1, Scor_jucator_1 + 1, Scor_jucator_1), " +
+                             "Scor_jucator_2 = IF(" + ID_Jucator + " = Jucator_2, Scor_jucator_2 + 1, Scor_jucator_2) " +
+                             "WHERE ID_Joc = + " + ID_joc + ";";
+                MySqlCommand cmd1 = new MySqlCommand(cmd, conn);
+                cmd1.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                conn.Close();
+                retval = false;
+            }
+
+            return retval;
+        }
+        
         public List<Joc> getJocuri2010()
         {
             List<Joc> jocuriList = new List<Joc>();

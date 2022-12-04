@@ -51,7 +51,7 @@
             </Button>
 
         </Grid>
-        <Frame x:Name="mainPage" Grid.Row="0" Grid.Column="0" Source="MainPage.xaml" Visibility="Hidden"/>
+        <Frame x:Name="mainPage" Grid.Row="0" Grid.Column="0" Source="MainPage.xaml" Visibility="Hidden" NavigationUIVisibility="Hidden"/>
         <Button x:Name="backBT" Grid.Row="1" Grid.Column="0" Width="320" Padding="0" Margin="0, 10, 0, 10" VerticalAlignment="Center" HorizontalAlignment="Center" Click="backBT_Click" BorderBrush="#FFBBBBBB" Visibility="Hidden">
             <Viewbox Margin="10, 0">
                 <Label Content="Înapoi" FontSize="40"/>

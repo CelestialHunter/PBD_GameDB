@@ -53,6 +53,8 @@ namespace MatchMaker
             menuGrid.Visibility = Visibility.Visible;
             mainPage.Visibility = Visibility.Hidden;
             backBT.Visibility = Visibility.Hidden;
+
+            ((MainPage)mainPage.Content).returnFromGame();
         }
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

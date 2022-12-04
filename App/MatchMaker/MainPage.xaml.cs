@@ -68,14 +68,25 @@ namespace MatchMaker
             partideListView.ItemsSource = jocuri;
         }
 
+        public void returnFromGame()
+        {
+            gameFrame.Content = null;
+            gameFrame.Visibility = Visibility.Hidden;
+            partideListView.Visibility = Visibility.Visible;
+            initPartideTab();
+        }
+
         private void clickOnGame(object sender, MouseButtonEventArgs e)
         {
             Joc? joc = ((ListViewItem)sender).Content as Joc;
 
-            if (joc != null)
-            {
-                MessageBox.Show("FizzBuzz");
-            }
+            if (joc == null) return;
+            
+            GamePage gamePage = new GamePage(joc, returnFromGame);
+
+            gameFrame.Content = gamePage;
+            gameFrame.Visibility = Visibility.Visible;
+            partideListView.Visibility = Visibility.Hidden;
         }
         #endregion
 

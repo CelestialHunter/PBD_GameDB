@@ -20,7 +20,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>                    
+                    </Grid.RowDefinitions>
+                    <Frame x:Name="gameFrame" Grid.Row="1" Visibility="Hidden" NavigationUIVisibility="Hidden"/>
                     <ListView x:Name="partideListView" Grid.Row="1" Margin="10,10,10,10">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
@@ -30,7 +31,7 @@
                                         <SolidColorBrush Color="LightGray"/>
                                     </Setter.Value>
                                 </Setter>
-
+                                <Setter Property="Foreground" Value="Black"/>
                                 <EventSetter Event="UIElement.PreviewMouseLeftButtonUp" Handler="clickOnGame"/>
                             </Style>
                         </ListView.ItemContainerStyle>

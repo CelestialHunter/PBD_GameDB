@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MatchMaker.DataBase.Models
 {
-    internal class Joc
+    public class Joc
     {
         public int ID_joc { get; private set; }
         public string Tip_joc { get; private set; }
