@@ -235,7 +235,8 @@ namespace MatchMaker
                 mostGamesPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
 
             }
-             
+
+            initAgeCategoryCB();
         }
 
         private void tensMatchesBT_Click(object sender, RoutedEventArgs e)
@@ -247,8 +248,8 @@ namespace MatchMaker
 
         private void playerStatsBT_Click(object sender, RoutedEventArgs e)
         {
-            statsFrame.Visibility = Visibility.Visible;
-            statsGrid.Visibility = Visibility.Hidden;
+            //statsFrame.Visibility = Visibility.Visible;
+            //statsGrid.Visibility = Visibility.Hidden;
             //statsFrame.Content = ;
         }
         public void returnFromStatsPage()
@@ -258,9 +259,40 @@ namespace MatchMaker
             statsFrame.Content = null;
         }
 
+        private void initAgeCategoryCB()
+        {
+            Dictionary<String, int[]> ageCategories = new Dictionary<string, int[]>();
+            ageCategories.Add("Sub 10 ani", new int[] { 0, 10 });
+            ageCategories.Add("10-18 ani", new int[] { 10, 18 });
+            ageCategories.Add("18-40 ani", new int[] { 18, 40 });
+            ageCategories.Add("40-50 ani", new int[] { 40, 50 });
+            ageCategories.Add("Peste 50 ani", new int[] { 50, 200 });
+
+            ageCategoryCB.ItemsSource = ageCategories;
+            //ageCategoryCB.DisplayMemberPath = "Key";
+            ageCategoryCB.SelectedValuePath = "Value";
+        }
+
         private void ageCategoryCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //int[] ageCategory = (int[])ageCategoryCB.SelectedValue;
+            if (e.AddedItems.Count == 0) return;
+            
+            int[] ageCategory = ((KeyValuePair<string, int[]>)e.AddedItems[0]).Value as int[];
+            Jucator? m = DbConn.Instance.getMaiestruCategVarsta(ageCategory[0], ageCategory[1]);
 
+            if(m == null)
+            {
+                bestPlayerTB.Text = "Nu există maiestru în această categorie...";
+                bestPlayerTB.FontStyle = FontStyles.Italic;
+                bestPlayerTB.Foreground = new SolidColorBrush(Colors.DimGray);
+            }
+            else
+            {
+                bestPlayerTB.Text = m.Nume;
+                bestPlayerTB.FontStyle = FontStyles.Normal;
+                bestPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
+            }
         }
 
         #endregion

@@ -318,7 +318,14 @@
                     </Viewbox>
                     <ComboBox x:Name="ageCategoryCB" Grid.Column="1" Grid.Row="9" SelectionChanged="ageCategoryCB_SelectionChanged"
                               Margin="100, 10">
-                    </ComboBox>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Viewbox MaxHeight="40">
+                                        <TextBlock Text="{Binding Key}"/>
+                                    </Viewbox>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
                     <Viewbox Grid.Column="2" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxHeight="30">
                         <TextBlock Text="Nume Jucător:" HorizontalAlignment="Center"/>
