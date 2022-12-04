@@ -46,6 +46,7 @@ namespace MatchMaker
             backBT.Visibility = Visibility.Visible;
 
             ((MainPage)mainPage.Content).enterPage();
+            
         }
 
         private void backBT_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,9 @@ namespace MatchMaker
             mainPage.Visibility = Visibility.Hidden;
             backBT.Visibility = Visibility.Hidden;
 
-            ((MainPage)mainPage.Content).returnFromGame();
+            var mp = (MainPage)mainPage.Content;
+            mp.returnFromGame();
+            mp.returnFromStatsPage();
         }
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

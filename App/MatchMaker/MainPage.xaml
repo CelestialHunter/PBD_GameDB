@@ -22,7 +22,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Frame x:Name="gameFrame" Grid.Row="1" Visibility="Hidden" NavigationUIVisibility="Hidden"/>
-                    <ListView x:Name="partideListView" Grid.Row="1" Margin="10,10,10,10">
+                    <ListView x:Name="partideListView" Grid.Row="1" Margin="10,10,10,10" DataContext="{Binding}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -32,7 +32,7 @@
                                     </Setter.Value>
                                 </Setter>
                                 <Setter Property="Foreground" Value="Black"/>
-                                <EventSetter Event="UIElement.PreviewMouseLeftButtonUp" Handler="clickOnGame"/>
+                                <EventSetter Event="UIElement.PreviewMouseLeftButtonDown" Handler="clickOnGame"/>
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.View>
@@ -259,7 +259,10 @@
                         <TextBlock Text="Statistici"/>
                     </Viewbox>
                 </TabItem.Header>
-                <Grid Background="White">
+                <Grid>
+                    <Frame x:Name="statsFrame"
+                           Visibility="Hidden" NavigationUIVisibility="Hidden"/>
+                    <Grid x:Name="statsGrid" Background="White">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".5*"/>
                         <ColumnDefinition Width="2*"/>
@@ -324,6 +327,7 @@
                              Margin="10, 10" Style="{StaticResource ResourceKey=textBoxFontStyle}"/>
 
 
+                </Grid>
                 </Grid>
             </TabItem>
         </TabControl>

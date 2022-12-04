@@ -231,19 +231,19 @@ namespace MatchMaker.DataBase
                 {
                     int ID_joc = Convert.IsDBNull(reader["ID_joc"]) ? 0 : (int)reader["ID_joc"];
                     string Tip_joc = Convert.IsDBNull(reader["Tip_joc"]) ? "" : (string)reader["Tip_joc"];
-                    int Jucator_1 = Convert.IsDBNull(reader["Jucator_1"]) ? 0 : (int)reader["Jucator_1"];
-                    int Jucator_2 = Convert.IsDBNull(reader["Jucator_2"]) ? 0 : (int)reader["Jucator_2"];
+                    //int Jucator_1 = Convert.IsDBNull(reader["Jucator_1"]) ? 0 : (int)reader["Jucator_1"];
+                    //int Jucator_2 = Convert.IsDBNull(reader["Jucator_2"]) ? 0 : (int)reader["Jucator_2"];
                     int Numar_partide = Convert.IsDBNull(reader["Numar_partide"]) ? 0 : (int)reader["Numar_partide"];
-                    int Numar_partide_jucate = Convert.IsDBNull(reader["Numar_partide_jucate"]) ? 0 : (int)reader["Numar_partide_jucate"];
+                    //int Numar_partide_jucate = Convert.IsDBNull(reader["Numar_partide_jucate"]) ? 0 : (int)reader["Numar_partide_jucate"];
                     DateTime? Data_inceput_joc = Convert.IsDBNull(reader["Data_inceput_joc"]) ? null : (DateTime?)reader["Data_inceput_joc"];
                     DateTime? Data_sfarsit_joc = Convert.IsDBNull(reader["Data_sfarsit_joc"]) ? null : (DateTime?)reader["Data_sfarsit_joc"];
-                    int Scor_jucator_1 = Convert.IsDBNull(reader["Scor_jucator_1"]) ? 0 : (int)reader["Scor_jucator_1"];
-                    int Scor_jucator_2 = Convert.IsDBNull(reader["Scor_jucator_2"]) ? 0 : (int)reader["Scor_jucator_2"];
+                    //int Scor_jucator_1 = Convert.IsDBNull(reader["Scor_jucator_1"]) ? 0 : (int)reader["Scor_jucator_1"];
+                    //int Scor_jucator_2 = Convert.IsDBNull(reader["Scor_jucator_2"]) ? 0 : (int)reader["Scor_jucator_2"];
                     int Invingator = Convert.IsDBNull(reader["Invingator"]) ? 0 : (int)reader["Invingator"];
-                    int Durata_joc = Convert.IsDBNull(reader["Durata_joc"]) ? 0 : (int)reader["Durata_joc"];
+                    int Durata_joc = Convert.IsDBNull(reader["Durata_joc"]) ? 0 : (int)(Int64)reader["Durata_joc"];
 
-                    Joc joc = new Joc(ID_joc, Tip_joc, Jucator_1, Jucator_2, Numar_partide, Numar_partide_jucate,
-                        Data_inceput_joc, Data_sfarsit_joc, Scor_jucator_1, Scor_jucator_2, Invingator, Durata_joc);
+                    Joc joc = new Joc(ID_joc, Tip_joc, Numar_partide,
+                        Data_inceput_joc, Data_sfarsit_joc, Invingator, Durata_joc);
                     jocuriList.Add(joc);
                 }
 

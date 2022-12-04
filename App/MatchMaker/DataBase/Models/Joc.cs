@@ -39,10 +39,10 @@ namespace MatchMaker.DataBase.Models
             this.Invingator = Invingator;
         }
 
-        public Joc(int ID_joc, string Tip_joc, int Jucator_1, int Jucator_2, int Numar_partide, int Numar_partide_jucate, 
-            DateTime? Data_inceput_joc, DateTime? Data_sfarsit_joc, int Scor_jucator_1, int Scor_jucator_2, int Invingator, int Durata_joc) 
-            : this(ID_joc, Tip_joc, Jucator_1, Jucator_2, Numar_partide, Numar_partide_jucate, 
-                  Data_inceput_joc, Data_sfarsit_joc, Scor_jucator_1, Scor_jucator_2, Invingator)
+        public Joc(int ID_joc, string Tip_joc, int Numar_partide, 
+            DateTime? Data_inceput_joc, DateTime? Data_sfarsit_joc, int Invingator, int Durata_joc) 
+            : this(ID_joc, Tip_joc, 0, 0, Numar_partide, 0, 
+                  Data_inceput_joc, Data_sfarsit_joc, 0, 0, Invingator)
         {
             this.Durata_joc = Durata_joc;
         }

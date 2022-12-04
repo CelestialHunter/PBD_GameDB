@@ -1,0 +1,157 @@
+﻿<Page x:Class="MatchMaker.TensMatchesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MatchMaker"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TensMatchesPage">
+
+    <Grid Background="#CFCFCF">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width=".1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height=".5*"/>
+        </Grid.RowDefinitions>
+
+        <Viewbox MinHeight="30" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+            <TextBlock Text="⬅" PreviewMouseUp="TextBlock_PreviewMouseUp"/>
+        </Viewbox>
+
+        <Viewbox MaxHeight="50" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+            <TextBlock Text="Meciuri jucate între 01.01.2010 și 01.04.2010" FontWeight="Bold"/>
+        </Viewbox>
+
+        <ListView x:Name="partideListView" Grid.Row="3" Grid.Column="1">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="BorderBrush">
+                        <Setter.Value>
+                            <SolidColorBrush Color="LightGray"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Style.Triggers>
+                        <Trigger Property="ListView.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="LightGray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView ColumnHeaderToolTip="Partide">
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Viewbox Style="{StaticResource stats_columnHeader_viewbox}">
+                                <TextBlock Text="ID"/>
+                            </Viewbox>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                    <TextBlock Text="{Binding ID_joc}"/>
+                                </Viewbox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Viewbox Style="{StaticResource stats_columnHeader_viewbox}" MinWidth="100">
+                                <TextBlock Text="Joc"/>
+                            </Viewbox>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                    <TextBlock Text="{Binding Tip_joc}"/>
+                                </Viewbox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>                    
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Viewbox Style="{StaticResource stats_columnHeader_viewbox}">
+                                <TextBlock Text="Partide"/>
+                            </Viewbox>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                    <TextBlock Text="{Binding Numar_partide}"/>
+                                </Viewbox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Viewbox Style="{StaticResource stats_columnHeader_viewbox}">
+                                <TextBlock Text="Dată început joc"/>
+                            </Viewbox>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                    <TextBlock Text="{Binding Data_inceput_joc, StringFormat=d}"/>
+                                </Viewbox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Viewbox Style="{StaticResource stats_columnHeader_viewbox}">
+                                <TextBlock Text="Dată sfârșit joc"/>
+                            </Viewbox>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                    <TextBlock Text="{Binding Data_sfarsit_joc, StringFormat=d}"/>
+                                </Viewbox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Viewbox Style="{StaticResource stats_columnHeader_viewbox}">
+                                <TextBlock Text="Durată"/>
+                            </Viewbox>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                    <TextBlock>
+                                        <Run Text="{Binding Durata_joc, Mode=OneWay}"/>
+                                        <Run Text=" h"/>
+                                    </TextBlock> 
+                                </Viewbox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.Header>
+                            <Viewbox Style="{StaticResource stats_columnHeader_viewbox}">
+                                <TextBlock Text="Învingător"/>
+                            </Viewbox>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Viewbox Style="{StaticResource columnContent_viewbox}">
+                                    <TextBlock Text="{Binding Invingator, Converter={StaticResource IdToNameConv}}"/>
+                                </Viewbox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

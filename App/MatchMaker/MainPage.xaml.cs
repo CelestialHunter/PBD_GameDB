@@ -91,46 +91,6 @@ namespace MatchMaker
         #endregion
 
         #region Add Tab
-
-        #endregion
-
-        #region Stat Tab
-
-        public void initStats()
-        {
-            List<Jucator> bestChessPlayers = DbConn.Instance.getSahMaster();
-            if(bestChessPlayers.Count == 0)
-            {
-                bestChessPlayerTB.Text = "Nu există maiestru la șah...";
-                bestChessPlayerTB.FontStyle = FontStyles.Italic;
-                bestChessPlayerTB.Foreground = new SolidColorBrush(Colors.DimGray);
-            }
-            else
-            {
-                bestChessPlayerTB.Text = bestChessPlayers[0].Nume;
-                bestChessPlayerTB.FontStyle = FontStyles.Normal;
-                bestChessPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
-            }
-
-            String? maxGamesPlayer = DbConn.Instance.getJucatorMaxJocuri();
-            if(String.IsNullOrWhiteSpace(maxGamesPlayer))
-            {
-                mostGamesPlayerTB.Text = "Nu există jucători cu partide jucate în DB...";
-                mostGamesPlayerTB.FontStyle = FontStyles.Italic;
-                mostGamesPlayerTB.Foreground = new SolidColorBrush(Colors.DimGray);
-            }
-            else
-            {
-                mostGamesPlayerTB.Text = maxGamesPlayer;
-                mostGamesPlayerTB.FontStyle = FontStyles.Normal;
-                mostGamesPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
-
-            }
-             
-        }
-
-        #endregion
-
         private void addPlayerBT_Click(object sender, RoutedEventArgs e)
         {
             String playerName = newPlayerNameTB.Text;
@@ -241,20 +201,69 @@ namespace MatchMaker
                 e.Handled = true;
             }
         }
+        #endregion
+
+        #region Stat Tab
+
+        public void initStats()
+        {
+            List<Jucator> bestChessPlayers = DbConn.Instance.getSahMaster();
+            if(bestChessPlayers.Count == 0)
+            {
+                bestChessPlayerTB.Text = "Nu există maiestru la șah...";
+                bestChessPlayerTB.FontStyle = FontStyles.Italic;
+                bestChessPlayerTB.Foreground = new SolidColorBrush(Colors.DimGray);
+            }
+            else
+            {
+                bestChessPlayerTB.Text = bestChessPlayers[0].Nume;
+                bestChessPlayerTB.FontStyle = FontStyles.Normal;
+                bestChessPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
+            String? maxGamesPlayer = DbConn.Instance.getJucatorMaxJocuri();
+            if(String.IsNullOrWhiteSpace(maxGamesPlayer))
+            {
+                mostGamesPlayerTB.Text = "Nu există jucători cu partide jucate în DB...";
+                mostGamesPlayerTB.FontStyle = FontStyles.Italic;
+                mostGamesPlayerTB.Foreground = new SolidColorBrush(Colors.DimGray);
+            }
+            else
+            {
+                mostGamesPlayerTB.Text = maxGamesPlayer;
+                mostGamesPlayerTB.FontStyle = FontStyles.Normal;
+                mostGamesPlayerTB.Foreground = new SolidColorBrush(Colors.Black);
+
+            }
+             
+        }
 
         private void tensMatchesBT_Click(object sender, RoutedEventArgs e)
         {
-
+            statsFrame.Visibility = Visibility.Visible;
+            statsGrid.Visibility = Visibility.Hidden;
+            statsFrame.Content = new TensMatchesPage(returnFromStatsPage);
         }
 
         private void playerStatsBT_Click(object sender, RoutedEventArgs e)
         {
-
+            statsFrame.Visibility = Visibility.Visible;
+            statsGrid.Visibility = Visibility.Hidden;
+            //statsFrame.Content = ;
+        }
+        public void returnFromStatsPage()
+        {
+            statsFrame.Visibility = Visibility.Hidden;
+            statsGrid.Visibility = Visibility.Visible;
+            statsFrame.Content = null;
         }
 
         private void ageCategoryCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
+
+        #endregion
+
     }
 }
