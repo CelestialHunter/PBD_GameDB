@@ -205,6 +205,8 @@ namespace MatchMaker
 
         #region Stat Tab
 
+        Dictionary<String, int[]> ageCategories;
+
         public void initStats()
         {
             List<Jucator> bestChessPlayers = DbConn.Instance.getSahMaster();
@@ -246,6 +248,7 @@ namespace MatchMaker
             statsFrame.Content = new TensMatchesPage(returnFromStatsPage);
         }
 
+        //TODO
         private void playerStatsBT_Click(object sender, RoutedEventArgs e)
         {
             //statsFrame.Visibility = Visibility.Visible;
@@ -261,27 +264,28 @@ namespace MatchMaker
 
         private void initAgeCategoryCB()
         {
-            Dictionary<String, int[]> ageCategories = new Dictionary<string, int[]>();
+            ageCategories = new Dictionary<string, int[]>();
             ageCategories.Add("Sub 10 ani", new int[] { 0, 10 });
             ageCategories.Add("10-18 ani", new int[] { 10, 18 });
             ageCategories.Add("18-40 ani", new int[] { 18, 40 });
             ageCategories.Add("40-50 ani", new int[] { 40, 50 });
             ageCategories.Add("Peste 50 ani", new int[] { 50, 200 });
 
-            ageCategoryCB.ItemsSource = ageCategories;
+            ageCategoryCB.ItemsSource = ageCategories.Keys;
             //ageCategoryCB.DisplayMemberPath = "Key";
-            ageCategoryCB.SelectedValuePath = "Value";
+            //ageCategoryCB.SelectedValuePath = "Value";
         }
 
         private void ageCategoryCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //int[] ageCategory = (int[])ageCategoryCB.SelectedValue;
-            if (e.AddedItems.Count == 0) return;
-            
-            int[] ageCategory = ((KeyValuePair<string, int[]>)e.AddedItems[0]).Value as int[];
+            if (e.AddedItems == null || e.AddedItems.Count == 0) return;
+
+            //int[] ageCategory = ((KeyValuePair<string, int[]>)e.AddedItems[0]).Value as int[];
+
+            int[] ageCategory = ageCategories[(String)e.AddedItems[0]];
             Jucator? m = DbConn.Instance.getMaiestruCategVarsta(ageCategory[0], ageCategory[1]);
 
-            if(m == null)
+            if (m == null)
             {
                 bestPlayerTB.Text = "Nu există maiestru în această categorie...";
                 bestPlayerTB.FontStyle = FontStyles.Italic;

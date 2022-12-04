@@ -320,9 +320,11 @@
                               Margin="100, 10">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Viewbox MaxHeight="40">
-                                        <TextBlock Text="{Binding Key}"/>
-                                    </Viewbox>
+                                    <Grid>
+                                        <Viewbox MaxHeight="30" Margin="5">
+                                            <TextBlock Text="{Binding .}"/>
+                                        </Viewbox>
+                                    </Grid>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
