@@ -37,17 +37,15 @@ CREATE TABLE `jocuri` (
   `Scor_jucator_2` int DEFAULT '0',
   `Invingator` int DEFAULT NULL,
   PRIMARY KEY (`ID_Joc`),
-  KEY `FK_Jucator_idx` (`Invingator`,`Jucator_1`,`Jucator_2`),
   KEY `Jucator_1_idx` (`Jucator_1`),
   KEY `Jucator_2_idx` (`Jucator_2`),
-  CONSTRAINT `Invingator` FOREIGN KEY (`Invingator`) REFERENCES `jucatori` (`ID_Jucator`),
   CONSTRAINT `Jucator_1` FOREIGN KEY (`Jucator_1`) REFERENCES `jucatori` (`ID_Jucator`),
   CONSTRAINT `Jucator_2` FOREIGN KEY (`Jucator_2`) REFERENCES `jucatori` (`ID_Jucator`),
   CONSTRAINT `jocuri_chk_1` CHECK ((`Numar_partide` < 100)),
   CONSTRAINT `jocuri_chk_2` CHECK ((`Numar_partide_jucate` < 100)),
   CONSTRAINT `jocuri_chk_3` CHECK ((`Data_inceput_joc` < `Data_sfarsit_joc`)),
   CONSTRAINT `Numar_partide` CHECK (((`Numar_partide` % 2) <> 0))
-) ENGINE=InnoDB AUTO_INCREMENT=1000000001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +54,7 @@ CREATE TABLE `jocuri` (
 
 LOCK TABLES `jocuri` WRITE;
 /*!40000 ALTER TABLE `jocuri` DISABLE KEYS */;
-INSERT INTO `jocuri` VALUES (1,'Sah',1,2,3,2,'2022-10-06 00:00:00','2022-10-07 00:00:00',1,2,2),(2,'Table',3,4,5,5,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,2,3),(3,'Sah',3,4,7,7,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,4,4),(4,'Sah',2,3,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',1,2,3),(5,'Sah',4,1,5,5,'2022-10-07 00:00:00','2022-10-08 00:00:00',5,0,4),(6,'Sah',2,4,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,1,2),(7,'Sah',1,2,5,4,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,2,NULL),(8,'Table',2,3,3,3,'2009-12-05 00:00:00','2009-12-07 00:00:00',2,1,2),(9,'Table',4,3,7,7,'2009-12-28 00:00:00','2010-01-02 00:00:00',2,5,3),(10,'Table',2,3,3,3,'2010-01-01 00:00:00','2010-01-02 00:00:00',2,1,2),(11,'Sah',4,1,5,5,'2010-02-02 00:00:00','2010-04-01 00:00:00',4,1,4),(12,'Table',4,1,3,3,'2011-03-03 00:00:00','2011-03-04 00:00:00',1,2,1);
+INSERT INTO `jocuri` VALUES (1,'sah',1,2,3,3,'2022-11-23 22:53:17','2022-12-04 00:00:00',3,0,1),(2,'Jocul Mintii',1,2,5,5,'2022-12-02 15:33:45','2022-12-04 00:00:00',2,3,2),(3,'sah',4,3,3,3,'2022-12-04 04:06:28','2022-12-04 04:11:44',1,2,3),(4,'table',2,3,3,3,'2022-12-04 04:14:39','2022-12-04 04:14:45',2,1,2),(5,'Sah',1,2,3,2,'2022-10-06 00:00:00','2022-10-07 00:00:00',1,2,2),(6,'Table',3,4,5,5,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,2,3),(7,'Sah',3,4,7,7,'2022-10-08 00:00:00','2022-10-09 00:00:00',3,4,4),(8,'Sah',2,3,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',1,2,3),(9,'Sah',4,1,5,5,'2022-10-07 00:00:00','2022-10-08 00:00:00',5,0,4),(10,'Sah',2,4,3,3,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,1,2),(11,'Sah',1,2,5,4,'2022-10-07 00:00:00','2022-10-08 00:00:00',2,2,NULL),(12,'Table',2,3,3,3,'2009-12-05 00:00:00','2009-12-07 00:00:00',2,1,2),(13,'Table',4,3,7,7,'2009-12-28 00:00:00','2010-01-02 00:00:00',2,5,3),(14,'Table',2,3,3,3,'2010-01-01 00:00:00','2010-01-02 00:00:00',2,1,2),(15,'Sah',4,1,5,5,'2010-02-02 00:00:00','2010-04-01 00:00:00',4,1,4),(16,'Table',4,1,3,3,'2011-03-03 00:00:00','2011-03-04 00:00:00',1,2,1),(17,'Alba - Neagra',16,3,5,1,'2022-12-06 21:51:49',NULL,1,0,NULL),(18,'table',16,2,3,3,'2022-12-06 21:59:46','2022-12-06 21:59:55',1,2,2);
 /*!40000 ALTER TABLE `jocuri` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -69,22 +67,12 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `jocuri_AFTER_UPDATE` BEFORE UPDATE ON `jocuri` FOR EACH ROW BEGIN
-	IF NEW.Numar_partide = NEW.Numar_partide_jucate THEN
-		CASE WHEN (NEW.Scor_jucator_1 > NEW.Scor_jucator_2) THEN
-			BEGIN
-				SET NEW.Invingator = Jucator_1;
-			END;
-		WHEN (NEW.Scor_jucator_2 < NEW.Scor_jucator_2) THEN
-			BEGIN
-				SET NEW.Invingator = Jucator_2;
-			END;
-		ELSE 
-			BEGIN
-				SET NEW.Invingator = 0;
-			END;
-		END CASE;
-        
-	SET NEW.Data_sfarsit_joc = current_date();
+	IF NEW.Numar_partide = NEW.Numar_partide_jucate THEN    
+		SET NEW.Invingator = CASE
+			WHEN NEW.Scor_jucator_1 > NEW.Scor_jucator_2 THEN NEW.Jucator_1
+			ELSE NEW.Jucator_2 END;
+			
+		SET NEW.Data_sfarsit_joc = now();
 	END IF;
 END */;;
 DELIMITER ;
@@ -105,11 +93,8 @@ CREATE TABLE `jucatori` (
   `Nume` varchar(30) NOT NULL,
   `Data_nastere` datetime NOT NULL,
   `Data_inscriere` datetime NOT NULL,
-  `Data_curenta` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ID_Jucator`),
-  CONSTRAINT `Data_inscriere` CHECK ((`Data_inscriere` < `Data_curenta`)),
-  CONSTRAINT `Data_nastere` CHECK ((`Data_nastere` < `Data_curenta`))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`ID_Jucator`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,9 +103,55 @@ CREATE TABLE `jucatori` (
 
 LOCK TABLES `jucatori` WRITE;
 /*!40000 ALTER TABLE `jucatori` DISABLE KEYS */;
-INSERT INTO `jucatori` VALUES (1,'Eduard Miclos','2001-07-13 00:00:00','2022-10-05 00:00:00','2022-10-06 21:45:16'),(2,'Andrei Balea','2001-05-30 00:00:00','2022-09-05 00:00:00','2022-10-06 21:47:23'),(3,'Matei Horia','2000-04-04 00:00:00','2022-09-06 00:00:00','2022-10-09 13:52:17'),(4,'Ionut Iftimie','2003-08-25 00:00:00','2022-10-04 00:00:00','2022-10-09 13:52:49');
+INSERT INTO `jucatori` VALUES (1,'Eduard Miclos','2001-07-13 00:00:00','2022-10-05 00:00:00'),(2,'Andrei Balea','2001-05-30 00:00:00','2022-09-05 00:00:00'),(3,'Matei Horia','2000-04-04 00:00:00','2022-09-06 00:00:00'),(4,'Ionut Iftimie','2003-08-25 00:00:00','2022-10-04 00:00:00'),(10,'Dummy','2010-07-08 00:00:00','2022-11-18 02:54:24'),(12,'Dummy2','2005-11-17 00:00:00','2022-11-18 02:57:43'),(16,'Marian Godină','1987-07-22 00:00:00','2022-12-06 21:51:25');
 /*!40000 ALTER TABLE `jucatori` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `jucatori_AFTER_INSERT` AFTER INSERT ON `jucatori` FOR EACH ROW BEGIN
+	IF NEW.Data_nastere > NOW() 
+		THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Data nasterii nu poate fi mai mare decat data curenta.';
+	END IF;
+    
+    IF NEW.Data_inscriere > NOW()
+		THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Data inscriere nu poate fi mai mare decat data curenta.';
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `jucatori_AFTER_UPDATE` AFTER UPDATE ON `jucatori` FOR EACH ROW BEGIN
+IF NEW.Data_nastere > NOW() 
+		THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Data nasterii nu poate fi mai mare decat data curenta.';
+	END IF;
+    
+    IF NEW.Data_inscriere > NOW()
+		THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Data inscriere nu poate fi mai mare decat data curenta.';
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Dumping routines for database 'pbd_db'
@@ -210,7 +241,7 @@ BEGIN
         
         # Query-ul propriu-zis de insertie a jocului.
         INSERT INTO jocuri (Tip_Joc, Jucator_1, Jucator_2, Numar_partide, Data_inceput_joc)
-        VALUES (tipJoc, idJucator1, idJucator2, nrPartide, CURRENT_DATE());
+        VALUES (tipJoc, idJucator1, idJucator2, nrPartide, NOW());
         
         SET errCode = 0;
 		SET statusMsg = "Succes!";
@@ -266,7 +297,7 @@ BEGIN
                Data_inceput_joc, 
                Data_sfarsit_joc, 
                TIMESTAMPDIFF(hour, Data_inceput_joc, Data_sfarsit_joc) AS Durata_joc, 
-               Nume as Invingator
+               Invingator
 		FROM Jocuri
 		INNER JOIN Jucatori ON Jocuri.Invingator = Jucatori.ID_Jucator 
 		WHERE Data_inceput_joc >= '2010-01-01' AND Data_sfarsit_joc <= '2010-04-01'
@@ -498,4 +529,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-30  2:12:43
+-- Dump completed on 2022-12-06 22:35:08
