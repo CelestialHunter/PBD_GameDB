@@ -39,8 +39,9 @@ namespace MatchMaker
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.RemovedItems == e.AddedItems) return;
             TabControl? tabControl = sender as TabControl;
-
+            
             if (tabControl != null)
             {
                 TabItem? tabItem = tabControl.SelectedItem as TabItem;
@@ -48,15 +49,18 @@ namespace MatchMaker
                 if(tabItem == partideTab)
                 {
                     initPartideTab();
+                    returnFromStatsPage();
 
                 }
                 else if (tabItem == addTab)
                 {
-                    
+                    returnFromStatsPage();
+                    returnFromGame();
                 }
                 else if (tabItem == statTab)
                 {
                     initStats();
+                    returnFromGame();
                 }
             }
         }
@@ -251,9 +255,9 @@ namespace MatchMaker
         //TODO
         private void playerStatsBT_Click(object sender, RoutedEventArgs e)
         {
-            //statsFrame.Visibility = Visibility.Visible;
-            //statsGrid.Visibility = Visibility.Hidden;
-            //statsFrame.Content = ;
+            statsFrame.Visibility = Visibility.Visible;
+            statsGrid.Visibility = Visibility.Hidden;
+            statsFrame.Content = new PlayerStatPage(returnFromStatsPage);
         }
         public void returnFromStatsPage()
         {

@@ -127,13 +127,5 @@
         <TextBox x:Name="endDateTB" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Center"
                  Style="{StaticResource textBoxFontStyle}" Width="400" Margin="10" IsReadOnly="True"
                  HorizontalContentAlignment="Center"/>
-
-        <Button x:Name="saveGameBT" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" 
-                Width="320" Margin="10" HorizontalAlignment="Center" Click="saveGameBT_Click">
-            <Viewbox MaxHeight="30">
-                <TextBlock Text="Salvează"/>
-            </Viewbox>            
-        </Button>
-
     </Grid>
 </Page>

@@ -231,14 +231,9 @@ namespace MatchMaker.DataBase
                 {
                     int ID_joc = Convert.IsDBNull(reader["ID_joc"]) ? 0 : (int)reader["ID_joc"];
                     string Tip_joc = Convert.IsDBNull(reader["Tip_joc"]) ? "" : (string)reader["Tip_joc"];
-                    //int Jucator_1 = Convert.IsDBNull(reader["Jucator_1"]) ? 0 : (int)reader["Jucator_1"];
-                    //int Jucator_2 = Convert.IsDBNull(reader["Jucator_2"]) ? 0 : (int)reader["Jucator_2"];
                     int Numar_partide = Convert.IsDBNull(reader["Numar_partide"]) ? 0 : (int)reader["Numar_partide"];
-                    //int Numar_partide_jucate = Convert.IsDBNull(reader["Numar_partide_jucate"]) ? 0 : (int)reader["Numar_partide_jucate"];
                     DateTime? Data_inceput_joc = Convert.IsDBNull(reader["Data_inceput_joc"]) ? null : (DateTime?)reader["Data_inceput_joc"];
                     DateTime? Data_sfarsit_joc = Convert.IsDBNull(reader["Data_sfarsit_joc"]) ? null : (DateTime?)reader["Data_sfarsit_joc"];
-                    //int Scor_jucator_1 = Convert.IsDBNull(reader["Scor_jucator_1"]) ? 0 : (int)reader["Scor_jucator_1"];
-                    //int Scor_jucator_2 = Convert.IsDBNull(reader["Scor_jucator_2"]) ? 0 : (int)reader["Scor_jucator_2"];
                     int Invingator = Convert.IsDBNull(reader["Invingator"]) ? 0 : (int)reader["Invingator"];
                     int Durata_joc = Convert.IsDBNull(reader["Durata_joc"]) ? 0 : (int)(Int64)reader["Durata_joc"];
 
@@ -428,6 +423,30 @@ namespace MatchMaker.DataBase
             }
 
             return jucator;
+        }
+    
+        public DataTable getRaportJucatori()
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("raportJucatori", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                conn.Close();
+            }
+
+            return dt;
         }
     }
 }

@@ -327,7 +327,7 @@
                                     </Grid>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
-                        </ComboBox>
+                    </ComboBox>
 
                     <Viewbox Grid.Column="2" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxHeight="30">
                         <TextBlock Text="Nume Jucător:" HorizontalAlignment="Center"/>

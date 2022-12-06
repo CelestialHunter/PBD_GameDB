@@ -110,13 +110,6 @@ namespace MatchMaker
             DbConn.Instance.addScore(currentGame.ID_joc, currentGame.Jucator_2);
             currentGame = DbConn.Instance.getJocuri().Where(x => x.ID_joc == currentGame.ID_joc).FirstOrDefault();
             fillData();
-        }
-
-        private void saveGameBT_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        
+        }        
     }
 }
