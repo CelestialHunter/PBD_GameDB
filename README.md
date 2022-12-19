@@ -13,7 +13,3 @@ This is a **university project** on **Database Design** that manages game matche
 <p align="center">
   <img src="https://i.imgur.com/IUD2y8h.png" />
 </p>
-
-# Use Case Diagram
-
-to be added
